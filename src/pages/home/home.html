@@ -6,6 +6,12 @@
 
 <ion-content padding>
   <h2>You have created a new Game</h2>
-  <h1>Game Code: {{game_code}}</h1>
-  <button ion-button (click)="joinGame(game_code)">Join Game</button>
+  <h1>Game Code: {{cardgameService.game_code}}</h1>
+  <form [formGroup]="playerNameForm" (ngSubmit)="cardgameService.joinGame(playerNameForm.value)">
+    <ion-item>
+      <ion-label>Your Name</ion-label>
+      <ion-input formControlName="playerName" name="playerName"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Join Game</button>
+  </form>
 </ion-content>

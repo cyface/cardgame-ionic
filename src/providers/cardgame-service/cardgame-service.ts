@@ -10,6 +10,7 @@ export class CardgameService {
   private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
+  public game_code: string;
 
   public connect() {
     if (this.messages)
@@ -21,7 +22,12 @@ export class CardgameService {
     this.messages = websocketConnect(
       this.BASE_URL,
       this.inputStream = new QueueingSubject<string>()
-    ).messages.share()
+    ).messages.share();
+
+    // Connect Event Listener to Socket
+    this.messages.subscribe((message: string) => {
+      this.eventListener(message);
+    });
   }
 
   public send(message: string): void {
@@ -31,4 +37,40 @@ export class CardgameService {
     // is disconnected.
     this.inputStream.next(message)
   }
+
+  public createGame() {
+    console.log("Hello createGame");
+    // Connect to Card Game Service Socket
+
+    //Send Create Game Message
+    this.send(JSON.stringify({'stream': 'create_game', 'payload': {}}));
+  }
+
+  public joinGame(playerName: string) {
+    console.log(playerName);
+    console.log("Hello joinGame");
+    this.send(JSON.stringify(
+      {'stream': 'join_game', 'payload': {'game_code': this.game_code, 'player_name': playerName}}
+    ));
+  }
+
+  public eventListener(message: string) {
+    let response = JSON.parse(message);
+    console.log('EventListener: ');
+    console.log(response);
+    switch (response.stream) {
+      case 'create_game':
+        console.log('CREATING GAME');
+        this.game_code = response.payload.data.game_code;
+        break;
+      case 'join_game':
+        console.log('JOINING GAME');
+        break;
+      case 'player_joined_game':
+        console.log('PLAYER JOINED GAME');
+        console.log(response.payload.data.player_name);
+        break;
+    }
+  }
+
 }
