@@ -5,13 +5,13 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>You have created a new Game</h2>
-  <h1>Game Code: {{cardgameService.game_code}}</h1>
+  <h2>You have created a new game!</h2>
+  <h1>Your Game Code: {{cardgameService.game_code}}</h1>
   <form [formGroup]="playerNameForm" (ngSubmit)="cardgameService.joinGame(playerNameForm.value)">
     <ion-item>
-      <ion-label>Your Name</ion-label>
+      <ion-label>Enter Your Name</ion-label>
       <ion-input formControlName="playerName" name="playerName"></ion-input>
     </ion-item>
-    <button ion-button type="submit" block>Join Game</button>
+    <button ion-button type="submit" block [disabled]="!playerNameForm.controls.playerName.valid">Join Game</button>
   </form>
 </ion-content>

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 
 @Component({
@@ -13,7 +13,7 @@ export class HomePage {
     this.cardgameService.connect();
     this.cardgameService.createGame();
     this.playerNameForm = builder.group({
-      'playerName': ''
+      'playerName': ['', Validators.required]
     })
   }
 }
