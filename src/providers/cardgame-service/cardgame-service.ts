@@ -7,7 +7,7 @@ import 'rxjs/add/operator/share';
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'ws://127.0.0.1:8000/';
+  private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
 
