@@ -57,6 +57,13 @@ export class CardgameService {
     ));
   }
 
+  public submitCard(cardgameplayerPk: string) {
+    console.log("Hello submitCard");
+    this.send(JSON.stringify(
+      {'stream': 'submit_card', 'payload': {'game_code': this.gameCode, 'cardgameplayer_pk': cardgameplayerPk}}
+    ));
+  }
+
   public eventListener(message: string) {
     let response = JSON.parse(message);
     console.log('EventListener: ');

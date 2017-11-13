@@ -15,7 +15,7 @@
     <button ion-button type="submit" block [disabled]="!playerNameForm.controls.playerName.valid">Join Game</button>
   </form>
   <ion-list>
-    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="itemSelected(item)">
+    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
       {{ card.card__name }}
     </button>
   </ion-list>
