@@ -12,6 +12,8 @@ export class CardgameService {
   public messages: Observable<string>;
   public gameCode: string;
   public cardsInHand: object;
+  public matchingCard: object;
+  public judgePlayerName: object;
 
   public connect() {
     if (this.messages)
@@ -47,11 +49,11 @@ export class CardgameService {
     this.send(JSON.stringify({'stream': 'create_game', 'payload': {}}));
   }
 
-  public joinGame(playerName: string) {
-    console.log(playerName);
+  public joinGame(playerNameFormData) {
+    console.log(playerNameFormData);
     console.log("Hello joinGame");
     this.send(JSON.stringify(
-      {'stream': 'join_game', 'payload': {'game_code': this.gameCode, 'player_name': playerName}}
+      {'stream': 'join_game', 'payload': {'game_code': this.gameCode, 'player_name': playerNameFormData.playerName}}
     ));
   }
 
@@ -66,7 +68,10 @@ export class CardgameService {
         break;
       case 'join_game':
         console.log('JOINING GAME');
+        console.log(response.payload.data);
         this.cardsInHand = response.payload.data.player_cards;
+        this.matchingCard = response.payload.data.green_card.card__name;
+        this.judgePlayerName = response.payload.data.judge_name;
         console.log(this.cardsInHand);
         break;
       case 'player_joined_game':
