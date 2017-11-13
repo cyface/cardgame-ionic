@@ -10,7 +10,8 @@ export class CardgameService {
   private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
-  public game_code: string;
+  public gameCode: string;
+  public cardsInHand: object;
 
   public connect() {
     if (this.messages)
@@ -50,7 +51,7 @@ export class CardgameService {
     console.log(playerName);
     console.log("Hello joinGame");
     this.send(JSON.stringify(
-      {'stream': 'join_game', 'payload': {'game_code': this.game_code, 'player_name': playerName}}
+      {'stream': 'join_game', 'payload': {'game_code': this.gameCode, 'player_name': playerName}}
     ));
   }
 
@@ -61,10 +62,12 @@ export class CardgameService {
     switch (response.stream) {
       case 'create_game':
         console.log('CREATING GAME');
-        this.game_code = response.payload.data.game_code;
+        this.gameCode = response.payload.data.game_code;
         break;
       case 'join_game':
         console.log('JOINING GAME');
+        this.cardsInHand = response.payload.data.player_cards;
+        console.log(this.cardsInHand);
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME');
