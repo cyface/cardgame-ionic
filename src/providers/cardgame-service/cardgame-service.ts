@@ -13,7 +13,10 @@ export class CardgameService {
   public gameCode: string;
   public cardsInHand: object;
   public matchingCard: object;
+  public playerName: string;
+  public players: string;
   public judgePlayerName: object;
+  public allPlayersSubmitted: boolean;
 
   public connect() {
     if (this.messages)
@@ -77,8 +80,11 @@ export class CardgameService {
         console.log('JOINING GAME');
         console.log(response.payload.data);
         this.cardsInHand = response.payload.data.player_cards;
-        this.matchingCard = response.payload.data.green_card.card__name;
+        this.matchingCard = response.payload.data.green_card.name;
+        this.playerName = response.payload.data.player_name;
         this.judgePlayerName = response.payload.data.judge_name;
+        this.players = response.payload.data.players;
+        this.allPlayersSubmitted = response.payload.data.all_players_submitted;
         console.log(this.cardsInHand);
         break;
       case 'player_joined_game':

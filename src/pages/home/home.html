@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content padding>
+  <h1 [hidden]="!cardgameService.playerName">Welcome, {{ cardgameService.playerName }}</h1>
   <h2>You have created a new game!</h2>
   <h1>Your Game Code: {{cardgameService.gameCode}}</h1>
   <form [formGroup]="playerNameForm" (ngSubmit)="cardgameService.joinGame(playerNameForm.value)">
@@ -16,9 +17,16 @@
   </form>
   <ion-list>
     <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
-      {{ card.card__name }}
+      {{ card.name }}
     </button>
   </ion-list>
   <h3>Match This Card: {{ cardgameService.matchingCard }}</h3>
   <h3>The Judge Is: {{ cardgameService.judgePlayerName }}</h3>
+  <h3>The Players Are:</h3>
+  <ion-list>
+    <button ion-item *ngFor="let player of cardgameService.players">
+      {{ player.name }}: {{ player.status }}
+    </button>
+  </ion-list>
+  <h3>All Players Submitted? {{ cardgameService.allPlayersSubmitted }}</h3>
 </ion-content>
