@@ -11,6 +11,9 @@ import {PlayPage} from "../play/play";
 export class JoinPage {
   joinForm: FormGroup;
   constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder) {
+    if (!this.cardgameService.gameCode) {
+      this.cardgameService.connect();
+    }
     this.joinForm = builder.group({
       'playerName': ['', Validators.required],
       'gameCode': [this.navParams.get('gameCode'), Validators.required]

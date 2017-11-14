@@ -12,6 +12,7 @@ export class CardgameService {
   public messages: Observable<string>;
   public gameCode: string;
   public cardsInHand: object;
+  public submittedCard: object;
   public matchingCard: object;
   public playerName: string;
   public players: object;
@@ -87,10 +88,27 @@ export class CardgameService {
         this.players = response.payload.data.players;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
         break;
+      case 'submit_card':
+        console.log('REPLY FROM SUBMIT CARD');
+        console.log(response.payload.data.player_name);
+        this.cardsInHand = response.payload.data.cards;
+        break;
+      case 'card_was_submitted':
+        console.log('A CARD WAS SUBMITTED');
+        console.log(response.payload.data.player_name);
+        this.submittedCard = {pk: response.payload.data.cardgameplayer_pk, name: response.payload.data.card_name, text: response.payload.data.card_text};
+        this.players = response.payload.data.players;
+        break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME');
         console.log(response.payload.data.player_name);
-        this.players[response.payload.data.player_name] = "PLAYER JOINED";
+        this.players = response.payload.data.players;
+        break;
+      case 'new_cards':
+        console.log('NEW CARDS');
+        console.log(response.payload.data.player_name);
+        this.players = response.payload.data.players;
+        this.cardsInHand = response.payload.data.cards;
         break;
     }
   }
