@@ -1,10 +1,17 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Welcome to the Card Game!</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <button ion-button (click)="goToCreate()">Create Game</button>
-  <button ion-button (click)="goToJoin()">Join Game With an Existing Game Code</button>
+
+  <button ion-button (click)="goToCreate()" full large strong>
+    <ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game
+  </button>
+  <br />
+  <button ion-button (click)="goToJoin()" color="secondary" full large strong>
+    <ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join Game With an Existing Game Code
+  </button>
+
 </ion-content>

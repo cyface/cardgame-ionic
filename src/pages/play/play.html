@@ -6,7 +6,6 @@
 
 <ion-content padding>
   <h1 [hidden]="!cardgameService.playerName">Welcome, {{ cardgameService.playerName }}</h1>
-  <h1>Your Game Code: {{cardgameService.gameCode}}</h1>
   <ion-list>
     <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
       {{ card.name }}

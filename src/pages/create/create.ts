@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController, Tabs} from 'ionic-angular';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {JoinPage} from "../join/join";
+import {NavController} from "ionic-angular";
 
 @Component({
   selector: 'page-create',
