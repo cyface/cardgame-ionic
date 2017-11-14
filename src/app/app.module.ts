@@ -7,7 +7,6 @@ import { CreatePage } from '../pages/create/create';
 import { PlayPage } from '../pages/play/play';
 import { JoinPage } from '../pages/join/join';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,8 +18,7 @@ import { CardgameService } from '../providers/cardgame-service/cardgame-service'
     CreatePage,
     HomePage,
     JoinPage,
-    PlayPage,
-    TabsPage
+    PlayPage
   ],
   imports: [
     BrowserModule,
@@ -32,8 +30,7 @@ import { CardgameService } from '../providers/cardgame-service/cardgame-service'
     CreatePage,
     HomePage,
     JoinPage,
-    PlayPage,
-    TabsPage
+    PlayPage
   ],
   providers: [
     StatusBar,

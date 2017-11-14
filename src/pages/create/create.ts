@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, Tabs} from 'ionic-angular';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {JoinPage} from "../join/join";
 
