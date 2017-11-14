@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Cardgame: {{ cardgameService.gameCode }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h1 [hidden]="!cardgameService.playerName">Welcome, {{ cardgameService.playerName }}</h1>
+  <h1>Your Game Code: {{cardgameService.gameCode}}</h1>
+  <ion-list>
+    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
+      {{ card.name }}
+    </button>
+  </ion-list>
+  <h3>Match This Card: {{ cardgameService.matchingCard }}</h3>
+  <h3>The Judge Is: {{ cardgameService.judgePlayerName }}</h3>
+  <h3>The Players Are:</h3>
+  <ion-list>
+    <button ion-item *ngFor="let player of cardgameService.players">
+      {{ player.name }}: {{ player.status }}
+    </button>
+  </ion-list>
+  <h3>All Players Submitted? {{ cardgameService.allPlayersSubmitted }}</h3>
+</ion-content>

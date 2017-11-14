@@ -14,7 +14,7 @@ export class CardgameService {
   public cardsInHand: object;
   public matchingCard: object;
   public playerName: string;
-  public players: string;
+  public players: object;
   public judgePlayerName: object;
   public allPlayersSubmitted: boolean;
 
@@ -52,11 +52,11 @@ export class CardgameService {
     this.send(JSON.stringify({'stream': 'create_game', 'payload': {}}));
   }
 
-  public joinGame(playerNameFormData) {
-    console.log(playerNameFormData);
+  public joinGame(joinFormData) {
+    console.log(joinFormData);
     console.log("Hello joinGame");
     this.send(JSON.stringify(
-      {'stream': 'join_game', 'payload': {'game_code': this.gameCode, 'player_name': playerNameFormData.playerName}}
+      {'stream': 'join_game', 'payload': {'game_code': joinFormData.gameCode, 'player_name': joinFormData.playerName}}
     ));
   }
 
@@ -79,17 +79,18 @@ export class CardgameService {
       case 'join_game':
         console.log('JOINING GAME');
         console.log(response.payload.data);
+        this.gameCode = response.payload.data.game_code;
         this.cardsInHand = response.payload.data.player_cards;
         this.matchingCard = response.payload.data.green_card.name;
         this.playerName = response.payload.data.player_name;
         this.judgePlayerName = response.payload.data.judge_name;
         this.players = response.payload.data.players;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
-        console.log(this.cardsInHand);
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME');
         console.log(response.payload.data.player_name);
+        this.players[response.payload.data.player_name] = "PLAYER JOINED";
         break;
     }
   }

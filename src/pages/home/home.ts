@@ -1,19 +1,22 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
+import {CreatePage} from "../create/create";
+import {JoinPage} from "../join/join";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  playerNameForm: FormGroup;
-  constructor(public navCtrl: NavController, private cardgameService: CardgameService, private builder: FormBuilder) {
-    this.cardgameService.connect();
-    this.cardgameService.createGame();
-    this.playerNameForm = builder.group({
-      'playerName': ['', Validators.required]
-    })
+  constructor(public navCtrl: NavController) {
   }
+
+  goToCreate() {
+    this.navCtrl.push(CreatePage);
+  }
+
+  goToJoin() {
+    this.navCtrl.push(JoinPage);
+  }
+
 }
