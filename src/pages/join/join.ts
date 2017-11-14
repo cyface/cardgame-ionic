@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {PlayPage} from "../play/play";
@@ -10,10 +10,10 @@ import {PlayPage} from "../play/play";
 })
 export class JoinPage {
   joinForm: FormGroup;
-  constructor(public navCtrl: NavController, private cardgameService: CardgameService, private builder: FormBuilder) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder) {
     this.joinForm = builder.group({
       'playerName': ['', Validators.required],
-      'gameCode': ['', Validators.required]
+      'gameCode': [this.navParams.get('gameCode'), Validators.required]
     })
   }
 

@@ -7,4 +7,5 @@
 <ion-content padding>
   <h2>You have created a new game!</h2>
   <h1>Your Game Code: {{cardgameService.gameCode}}</h1>
+  <button ion-button (click)="goToJoin(cardgameService.gameCode)">Join This Game!</button>
 </ion-content>
