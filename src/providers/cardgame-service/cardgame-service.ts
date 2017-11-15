@@ -26,6 +26,7 @@ export class CardgameService {
   public messages: Observable<string>;
   public gameCode: string;
   public cardsInHand: Card[];
+  public submitted: boolean;
   public submittedCard: Card;
   public submittedCards: Card[];
   public matchingCard: Card;
@@ -111,11 +112,13 @@ export class CardgameService {
         this.judge = response.payload.data.judge;
         this.judging = this.judge.pk === this.player.pk;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
+        this.submitted = false;
         break;
       case 'submit_card':
         console.log('REPLY FROM SUBMIT CARD');
         console.log(response.payload.data);
         this.cardsInHand = response.payload.data.cards;
+        this.submitted = true;
         break;
       case 'card_was_submitted':
         console.log('A CARD WAS SUBMITTED');
@@ -123,6 +126,7 @@ export class CardgameService {
         this.submittedCard = response.payload.data.submitted_card;
         this.submittedCards = response.payload.data.submitted_cards;
         this.players = response.payload.data.players;
+        this.allPlayersSubmitted = response.payload.data.all_players_submitted;
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME');
@@ -139,6 +143,7 @@ export class CardgameService {
         this.judging = this.judge.pk === this.player.pk;
         this.submittedCards = [];
         this.allPlayersSubmitted = false;
+        this.submitted = false;
         break;
     }
   }
