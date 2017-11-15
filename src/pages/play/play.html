@@ -8,16 +8,16 @@
 <ion-content padding>
   <ion-list [hidden]="cardgameService.judging">
     <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
-      {{ card.name }}  {{ card.status }}
+      {{ card.name }} {{ card.status }}
     </button>
   </ion-list>
   <ion-list [hidden]="!cardgameService.judging">
     <button ion-item *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
-      {{ card.name }}  {{ card.status }}
+      {{ card.name }} {{ card.status }}
     </button>
   </ion-list>
   <h3>Match This Card: {{ cardgameService.matchingCard?.name }}</h3>
-  <h3>The Judge Is: {{ cardgameService.judging ? 'You!' : cardgameService.judgePlayerName}}</h3>
+  <h3>The Judge Is: {{ cardgameService.judging ? 'You!' : cardgameService.judge?.name}}</h3>
   <h3 [hidden]="!cardgameService.submittedCard">You Submitted: {{ cardgameService.submittedCard?.name }}</h3>
   <h3>The Players Are:</h3>
   <ion-list>

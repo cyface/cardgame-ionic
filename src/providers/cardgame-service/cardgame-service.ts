@@ -84,10 +84,10 @@ export class CardgameService {
     ));
   }
 
-  public pickCard(cardgameplayerPk: string) {
+  public pickCard(card_pk: string) {
     console.log("Hello pickCard");
     this.send(JSON.stringify(
-      {'stream': 'pick_card', 'payload': {'game_code': this.gameCode, 'cardgameplayer_pk': cardgameplayerPk}}
+      {'stream': 'pick_card', 'payload': {'game_code': this.gameCode, 'card_pk': card_pk}}
     ));
   }
 
@@ -114,29 +114,30 @@ export class CardgameService {
         break;
       case 'submit_card':
         console.log('REPLY FROM SUBMIT CARD');
-        console.log(response.payload.data.player_name);
+        console.log(response.payload.data);
         this.cardsInHand = response.payload.data.cards;
         break;
       case 'card_was_submitted':
         console.log('A CARD WAS SUBMITTED');
-        console.log(response.payload.data.player_name);
+        console.log(response.payload.data);
         this.submittedCard = response.payload.data.submitted_card;
         this.submittedCards = response.payload.data.submitted_cards;
         this.players = response.payload.data.players;
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME');
-        console.log(response.payload.data.player_name);
+        console.log(response.payload.data);
         this.players = response.payload.data.players;
         break;
       case 'new_cards':
         console.log('NEW CARDS');
-        console.log(response.payload.data.player_name);
+        console.log(response.payload.data);
         this.players = response.payload.data.players;
         this.cardsInHand = response.payload.data.cards;
         this.matchingCard = response.payload.data.green_card;
         this.judge = response.payload.data.judge;
         this.judging = this.judge.pk === this.player.pk;
+        this.submittedCards = [];
         this.allPlayersSubmitted = false;
         break;
     }
