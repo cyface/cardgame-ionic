@@ -5,18 +5,34 @@ import {Observable} from 'rxjs/Observable';
 import websocketConnect from 'rxjs-websockets';
 import 'rxjs/add/operator/share';
 
+interface Card {
+  pk: number;
+  name: string;
+  text?: string;
+  status: string;
+}
+
+interface Person {
+  pk: number;
+  name: string;
+  status: string;
+  score: number;
+}
+
 @Injectable()
 export class CardgameService {
   private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
   public gameCode: string;
-  public cardsInHand: object;
-  public submittedCard: object;
-  public matchingCard: object;
-  public playerName: string;
-  public players: object;
-  public judgePlayerName: object;
+  public cardsInHand: Card[];
+  public submittedCard: Card;
+  public submittedCards: Card[];
+  public matchingCard: Card;
+  public player: Person;
+  public players: Person[];
+  public judge: Person;
+  public judging: boolean;
   public allPlayersSubmitted: boolean;
 
   public connect() {
@@ -61,10 +77,17 @@ export class CardgameService {
     ));
   }
 
-  public submitCard(cardgameplayerPk: string) {
+  public submitCard(card_pk: number) {
     console.log("Hello submitCard");
     this.send(JSON.stringify(
-      {'stream': 'submit_card', 'payload': {'game_code': this.gameCode, 'cardgameplayer_pk': cardgameplayerPk}}
+      {'stream': 'submit_card', 'payload': {'game_code': this.gameCode, 'card_pk': card_pk}}
+    ));
+  }
+
+  public pickCard(cardgameplayerPk: string) {
+    console.log("Hello pickCard");
+    this.send(JSON.stringify(
+      {'stream': 'pick_card', 'payload': {'game_code': this.gameCode, 'cardgameplayer_pk': cardgameplayerPk}}
     ));
   }
 
@@ -82,10 +105,11 @@ export class CardgameService {
         console.log(response.payload.data);
         this.gameCode = response.payload.data.game_code;
         this.cardsInHand = response.payload.data.player_cards;
-        this.matchingCard = response.payload.data.green_card.name;
-        this.playerName = response.payload.data.player_name;
-        this.judgePlayerName = response.payload.data.judge_name;
-        this.players = response.payload.data.players;
+        this.submittedCards = response.payload.data.submitted_cards;
+        this.matchingCard = response.payload.data.green_card;
+        this.player = response.payload.data.player;
+        this.judge = response.payload.data.judge;
+        this.judging = this.judge.pk === this.player.pk;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
         break;
       case 'submit_card':
@@ -96,7 +120,8 @@ export class CardgameService {
       case 'card_was_submitted':
         console.log('A CARD WAS SUBMITTED');
         console.log(response.payload.data.player_name);
-        this.submittedCard = {pk: response.payload.data.cardgameplayer_pk, name: response.payload.data.card_name, text: response.payload.data.card_text};
+        this.submittedCard = response.payload.data.submitted_card;
+        this.submittedCards = response.payload.data.submitted_cards;
         this.players = response.payload.data.players;
         break;
       case 'player_joined_game':
@@ -109,6 +134,10 @@ export class CardgameService {
         console.log(response.payload.data.player_name);
         this.players = response.payload.data.players;
         this.cardsInHand = response.payload.data.cards;
+        this.matchingCard = response.payload.data.green_card;
+        this.judge = response.payload.data.judge;
+        this.judging = this.judge.pk === this.player.pk;
+        this.allPlayersSubmitted = false;
         break;
     }
   }

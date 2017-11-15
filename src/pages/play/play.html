@@ -1,19 +1,24 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Cardgame: {{ cardgameService.gameCode }}</ion-title>
+    <ion-title [hidden]="!cardgameService.player">Welcome, {{ cardgameService.player?.name }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1 [hidden]="!cardgameService.playerName">Welcome, {{ cardgameService.playerName }}</h1>
-  <ion-list>
-    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.cardgameplayer__pk)">
+  <ion-list [hidden]="cardgameService.judging">
+    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
       {{ card.name }}  {{ card.status }}
     </button>
   </ion-list>
-  <h3>Match This Card: {{ cardgameService.matchingCard }}</h3>
-  <h3>The Judge Is: {{ cardgameService.judgePlayerName }}</h3>
-  <h3 [hidden]="!cardgameService.submittedCard">You Submitted: {{ cardgameService.submittedCard ? cardgameService.submittedCard.name : ''}}</h3>
+  <ion-list [hidden]="!cardgameService.judging">
+    <button ion-item *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
+      {{ card.name }}  {{ card.status }}
+    </button>
+  </ion-list>
+  <h3>Match This Card: {{ cardgameService.matchingCard?.name }}</h3>
+  <h3>The Judge Is: {{ cardgameService.judging ? 'You!' : cardgameService.judgePlayerName}}</h3>
+  <h3 [hidden]="!cardgameService.submittedCard">You Submitted: {{ cardgameService.submittedCard?.name }}</h3>
   <h3>The Players Are:</h3>
   <ion-list>
     <button ion-item *ngFor="let player of cardgameService.players">
