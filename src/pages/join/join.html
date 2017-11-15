@@ -10,6 +10,7 @@
       <ion-label>Enter Your Name</ion-label>
       <ion-input formControlName="playerName" name="playerName"></ion-input>
     </ion-item>
+    <p *ngIf="!joinForm.controls.playerName.valid" danger padding-left>Invalid Name</p>
     <ion-item>
       <ion-label>Enter Your Game Code</ion-label>
       <ion-input formControlName="gameCode" name="gameCode"></ion-input>

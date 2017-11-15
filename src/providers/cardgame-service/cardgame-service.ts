@@ -2,6 +2,7 @@
 import {Injectable} from '@angular/core';
 import {QueueingSubject} from 'queueing-subject';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from "rxjs/Subject";
 import websocketConnect from 'rxjs-websockets';
 import 'rxjs/add/operator/share';
 
@@ -19,6 +20,11 @@ interface Person {
   score: number;
 }
 
+interface Error {
+  field: string;
+  message: string;
+}
+
 @Injectable()
 export class CardgameService {
   private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
@@ -30,11 +36,14 @@ export class CardgameService {
   public submittedCard: Card;
   public submittedCards: Card[];
   public matchingCard: Card;
+  public lastPickedCard: Card;
   public player: Person;
   public players: Person[];
   public judge: Person;
   public judging: boolean;
   public allPlayersSubmitted: boolean;
+  public joinErrors: Error[];
+  public joinSuccess = new Subject<boolean>();
 
   public connect() {
     if (this.messages)
@@ -63,7 +72,7 @@ export class CardgameService {
   }
 
   public createGame() {
-    console.log("Hello createGame");
+    console.log("SENDING CREATE GAME REQUEST");
     // Connect to Card Game Service Socket
 
     //Send Create Game Message
@@ -71,57 +80,67 @@ export class CardgameService {
   }
 
   public joinGame(joinFormData) {
+    console.log("SENDING JOIN GAME REQUEST");
     console.log(joinFormData);
-    console.log("Hello joinGame");
     this.send(JSON.stringify(
       {'stream': 'join_game', 'payload': {'game_code': joinFormData.gameCode, 'player_name': joinFormData.playerName}}
     ));
   }
 
   public submitCard(card_pk: number) {
-    console.log("Hello submitCard");
+    console.log("SENDING SUBMIT CARD REQUEST");
     this.send(JSON.stringify(
       {'stream': 'submit_card', 'payload': {'game_code': this.gameCode, 'card_pk': card_pk}}
     ));
   }
 
   public pickCard(card_pk: string) {
-    console.log("Hello pickCard");
+    console.log("SENDING PICK CARD REQUEST");
     this.send(JSON.stringify(
       {'stream': 'pick_card', 'payload': {'game_code': this.gameCode, 'card_pk': card_pk}}
     ));
   }
 
+  public getJoinSuccess(): Observable<boolean> {
+    return this.joinSuccess.asObservable();
+  }
+
   public eventListener(message: string) {
     let response = JSON.parse(message);
-    console.log('EventListener: ');
+    console.log('MESSAGE RECEIVED');
     console.log(response);
     switch (response.stream) {
       case 'create_game':
-        console.log('CREATING GAME');
+        console.log('CREATE GAME RESPONSE RECEIVED');
         this.gameCode = response.payload.data.game_code;
         break;
       case 'join_game':
-        console.log('JOINING GAME');
+        console.log('JOIN GAME RESPONSE RECEIVED');
         console.log(response.payload.data);
-        this.gameCode = response.payload.data.game_code;
-        this.cardsInHand = response.payload.data.player_cards;
-        this.submittedCards = response.payload.data.submitted_cards;
-        this.matchingCard = response.payload.data.green_card;
-        this.player = response.payload.data.player;
-        this.judge = response.payload.data.judge;
-        this.judging = this.judge.pk === this.player.pk;
-        this.allPlayersSubmitted = response.payload.data.all_players_submitted;
-        this.submitted = false;
+        if (response.payload.data.errors) {
+          this.joinErrors = response.payload.data.errors;
+        } else {
+          this.gameCode = response.payload.data.game_code;
+          this.cardsInHand = response.payload.data.player_cards;
+          this.submittedCards = response.payload.data.submitted_cards;
+          this.matchingCard = response.payload.data.green_card;
+          this.player = response.payload.data.player;
+          this.judge = response.payload.data.judge;
+          this.judging = this.judge.pk === this.player.pk;
+          this.allPlayersSubmitted = response.payload.data.all_players_submitted;
+          this.submitted = false;
+          this.joinSuccess.next(true);
+          this.joinErrors = [];
+        }
         break;
       case 'submit_card':
-        console.log('REPLY FROM SUBMIT CARD');
+        console.log('SUBMIT CARD RESPONSE RECEIVED');
         console.log(response.payload.data);
         this.cardsInHand = response.payload.data.cards;
         this.submitted = true;
         break;
       case 'card_was_submitted':
-        console.log('A CARD WAS SUBMITTED');
+        console.log('CARD SUBMITTED BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.submittedCard = response.payload.data.submitted_card;
         this.submittedCards = response.payload.data.submitted_cards;
@@ -129,12 +148,18 @@ export class CardgameService {
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
         break;
       case 'player_joined_game':
-        console.log('PLAYER JOINED GAME');
+        console.log('PLAYER JOINED GAME BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
         break;
+      case 'pick_card':
+        console.log('CARD PICKED BROADCAST RECEIVED');
+        console.log(response.payload.data);
+        this.players = response.payload.data.players;
+        this.lastPickedCard = response.payload.data.card;
+        break;
       case 'new_cards':
-        console.log('NEW CARDS');
+        console.log('NEW CARDS MESSAGE RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
         this.cardsInHand = response.payload.data.cards;
