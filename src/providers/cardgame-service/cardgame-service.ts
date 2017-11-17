@@ -32,7 +32,7 @@ export class CardgameService {
   public messages: Observable<string>;
   public gameCode: string;
   public cardsInHand: Card[];
-  public submitted: boolean;
+  public submitted: boolean = false;
   public submittedCard: Card;
   public submittedCards: Card[];
   public matchingCard: Card;
@@ -41,9 +41,11 @@ export class CardgameService {
   public players: Person[];
   public judge: Person;
   public judging: boolean;
-  public allPlayersSubmitted: boolean;
+  public allPlayersSubmitted: boolean = false;
   public joinErrors: Error[];
-  public joinSuccess = new Subject<boolean>();
+  public joinResult = new Subject<boolean>();
+  public gameCodeValidationResult = new Subject<object>();
+  public playerNameValidationResult = new Subject<object>();
 
   public connect() {
     if (this.messages)
@@ -101,8 +103,22 @@ export class CardgameService {
     ));
   }
 
+  public validateGameCode(game_code: string) {
+    console.log("SENDING VALIDATE GAME_CODE REQUEST");
+    this.send(JSON.stringify(
+      {'stream': 'validate_game_code', 'payload': {'game_code': game_code}}
+    ));
+  }
+
+  public validatePlayerName(player_name: string) {
+    console.log("SENDING VALIDATE PLAYER NAME REQUEST");
+    this.send(JSON.stringify(
+      {'stream': 'validate_player_name', 'payload': {'game_code': this.gameCode, 'player_name': player_name}}
+    ));
+  }
+
   public getJoinSuccess(): Observable<boolean> {
-    return this.joinSuccess.asObservable();
+    return this.joinResult.asObservable();
   }
 
   public eventListener(message: string) {
@@ -129,7 +145,7 @@ export class CardgameService {
           this.judging = this.judge.pk === this.player.pk;
           this.allPlayersSubmitted = response.payload.data.all_players_submitted;
           this.submitted = false;
-          this.joinSuccess.next(true);
+          this.joinResult.next(true);
           this.joinErrors = [];
         }
         break;
@@ -161,7 +177,6 @@ export class CardgameService {
       case 'new_cards':
         console.log('NEW CARDS MESSAGE RECEIVED');
         console.log(response.payload.data);
-        this.players = response.payload.data.players;
         this.cardsInHand = response.payload.data.cards;
         this.matchingCard = response.payload.data.green_card;
         this.judge = response.payload.data.judge;
@@ -169,6 +184,33 @@ export class CardgameService {
         this.submittedCards = [];
         this.allPlayersSubmitted = false;
         this.submitted = false;
+        break;
+      case 'validate_game_code':
+        console.log('VALIDATE GAME_CODE MESSAGE RECEIVED');
+        console.log(response.payload.data);
+        if (!response.payload.data.valid) {
+          console.log('VALIDATE GAME_CODE SIGNALLING INVALID');
+          this.gameCodeValidationResult.next({"game code invalid": true});
+        } else {
+          console.log('VALIDATE GAME_CODE SIGNALLING VALID');
+          this.gameCode = response.payload.data.game_code;
+          this.gameCodeValidationResult.next(null);
+        }
+        this.gameCodeValidationResult.complete();
+        this.gameCodeValidationResult = new Subject<object>(); //Once complete, have to start again
+        break;
+      case 'validate_player_name':
+        console.log('VALIDATE PLAYER NAME MESSAGE RECEIVED');
+        console.log(response.payload.data);
+        if (!response.payload.data.valid) {
+          console.log('VALIDATE PLAYER NAME SIGNALLING INVALID');
+          this.playerNameValidationResult.next({"player name taken": true});
+        } else {
+          console.log('VALIDATE PLAYER NAME SIGNALLING VALID');
+          this.playerNameValidationResult.next(null);
+        }
+        this.playerNameValidationResult.complete();
+        this.playerNameValidationResult = new Subject<object>(); //Once complete, have to start again
         break;
     }
   }

@@ -7,14 +7,14 @@
 <ion-content padding>
   <form [formGroup]="joinForm" (ngSubmit)="joinGame(joinForm.value)">
     <ion-item>
-      <ion-label>Enter Your Name</ion-label>
-      <ion-input formControlName="playerName" name="playerName"></ion-input>
-    </ion-item>
-    <p *ngIf="!joinForm.controls.playerName.valid" danger padding-left>Invalid Name</p>
-    <ion-item>
       <ion-label>Enter Your Game Code</ion-label>
-      <ion-input formControlName="gameCode" name="gameCode"></ion-input>
+      <ion-input formControlName="gameCode" type="text"></ion-input>
     </ion-item>
-    <button ion-button type="submit" block [disabled]="!joinForm.controls.playerName.valid">Join Game</button>
+    <ion-item [hidden]="!joinForm.controls.gameCode.valid">
+      <ion-label>Enter Your Name</ion-label>
+      <ion-input formControlName="playerName" type="text"></ion-input>
+    </ion-item>
+    <p *ngIf="joinForm.controls.playerName.dirty && !joinForm.controls.playerName.valid" danger padding-left>{{ joinForm.controls.playerName.valid }}</p>
+    <button ion-button type="submit" block [hidden]="!joinForm.controls.playerName.valid">Join Game</button>
   </form>
 </ion-content>

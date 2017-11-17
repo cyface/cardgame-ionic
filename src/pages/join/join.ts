@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {PlayPage} from "../play/play";
 import {Subscription} from "rxjs/Subscription";
+import {GameCodeValidator} from "../../validators/game_code";
+import {PlayerNameValidator} from "../../validators/player_name";
 
 @Component({
   selector: 'page-join',
@@ -12,24 +14,31 @@ import {Subscription} from "rxjs/Subscription";
 export class JoinPage {
   joinForm: FormGroup;
   joinSuccessSubscription: Subscription;
+  playerNameValidationResultSubscription;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder) {
     // Connect if not already connected (you may have already connected because you did createGame first)
     if (!this.cardgameService.gameCode) {
       this.cardgameService.connect();
     }
-    // Listen for a message from the service that the join was successful
-    this.joinSuccessSubscription = this.cardgameService.getJoinSuccess().subscribe(message => { this.navCtrl.setRoot(PlayPage); });
+    // Listen for a message from the service that the join was successful, and redirect to play page
+    this.joinSuccessSubscription = this.cardgameService.getJoinSuccess().subscribe(message => {
+      this.navCtrl.setRoot(PlayPage);
+    });
+
+    this.playerNameValidationResultSubscription = this.cardgameService.playerNameValidationResult.subscribe(message => {
+        console.log(message);
+      }
+    );
+
+    //Define the form used to let players join the game
     this.joinForm = this.builder.group({
-      'playerName': ['', [Validators.minLength(2)]],
-      'gameCode': [this.navParams.get('gameCode'), [Validators.minLength(4), Validators.maxLength(4)]]
+      'gameCode': [this.navParams.get('gameCode'), Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[a-zA-Z]*')]), GameCodeValidator.checkGameCode(this.cardgameService)],
+      'playerName': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]*')]), PlayerNameValidator.checkPlayerName(this.cardgameService)]
     })
   }
 
   joinGame(joinFormData) {
     this.cardgameService.joinGame(joinFormData);
-  }
-
-  goToPlayPage(){
-
   }
 }
