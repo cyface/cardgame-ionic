@@ -8,13 +8,29 @@
   <form [formGroup]="joinForm" (ngSubmit)="joinGame(joinForm.value)">
     <ion-item>
       <ion-label>Enter Your Game Code</ion-label>
-      <ion-input formControlName="gameCode" type="text"></ion-input>
+      <ion-input formControlName="gameCode" type="text" autocomplete="off" #gameCodeInput></ion-input>
     </ion-item>
+    <ion-item *ngIf="joinForm.controls.gameCode.pending">
+      <p>Checking Game Code...</p>
+    </ion-item>
+    <ion-item *ngIf="!joinForm.controls.gameCode.valid  && joinForm.controls.gameCode.dirty">
+      <p [hidden]="!joinForm.controls.gameCode.errors?.minlength || !joinForm.controls.gameCode.errors?.maxlength" >Please enter a valid four-letter game code.</p>
+      <p [hidden]="!joinForm.controls.gameCode.errors?.gameCodeInvalid" >I am sorry, but that game code doesn't exist.</p>
+    </ion-item>
+
     <ion-item [hidden]="!joinForm.controls.gameCode.valid">
       <ion-label>Enter Your Name</ion-label>
-      <ion-input formControlName="playerName" type="text"></ion-input>
+      <ion-input formControlName="playerName" type="text" autocomplete="off" #playerNameInput></ion-input>
     </ion-item>
-    <p *ngIf="joinForm.controls.playerName.dirty && !joinForm.controls.playerName.valid" danger padding-left>{{ joinForm.controls.playerName.valid }}</p>
+    <ion-item *ngIf="!joinForm.controls.playerName.valid  && joinForm.controls.playerName.dirty">
+      <p [hidden]="!joinForm.controls.playerName.errors?.minlength" >Please enter a valid name (must be at least two letters).</p>
+      <p [hidden]="!joinForm.controls.playerName.errors?.maxlength" >Please enter a valid name (must be less than 11 letters).</p>
+      <p [hidden]="!joinForm.controls.playerName.errors?.playerNameTaken" >I am sorry, but that name is already taken.</p>
+    </ion-item>
+    <ion-item *ngIf="joinForm.controls.playerName.pending">
+      <p>Checking Player Name...</p>
+    </ion-item>
+
     <button ion-button type="submit" block [hidden]="!joinForm.controls.playerName.valid">Join Game</button>
   </form>
 </ion-content>

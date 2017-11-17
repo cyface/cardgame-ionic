@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Cardgame: {{ cardgameService.gameCode }}</ion-title>
-    <ion-title [hidden]="!cardgameService.player">Welcome, {{ cardgameService.player?.name }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-list [hidden]="!cardgameService.player">Welcome, {{ cardgameService.player?.name }}</ion-list>
   <ion-list [hidden]="cardgameService.judging || cardgameService.submitted">
     <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
       {{ card.name }} {{ card.status }}

@@ -14,7 +14,7 @@ import {PlayerNameValidator} from "../../validators/player_name";
 export class JoinPage {
   joinForm: FormGroup;
   joinSuccessSubscription: Subscription;
-  playerNameValidationResultSubscription;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder) {
     // Connect if not already connected (you may have already connected because you did createGame first)
@@ -26,19 +26,29 @@ export class JoinPage {
       this.navCtrl.setRoot(PlayPage);
     });
 
-    this.playerNameValidationResultSubscription = this.cardgameService.playerNameValidationResult.subscribe(message => {
-        console.log(message);
-      }
-    );
-
     //Define the form used to let players join the game
     this.joinForm = this.builder.group({
       'gameCode': [this.navParams.get('gameCode'), Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern('[a-zA-Z]*')]), GameCodeValidator.checkGameCode(this.cardgameService)],
-      'playerName': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z]*')]), PlayerNameValidator.checkPlayerName(this.cardgameService)]
+      'playerName': ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern('[a-zA-Z]*')]), PlayerNameValidator.checkPlayerName(this.cardgameService)]
     })
   }
 
+  //Function to call the join form
   joinGame(joinFormData) {
     this.cardgameService.joinGame(joinFormData);
   }
+
+  // //Trying to set the focus
+  // @ViewChild('gameCodeInput') gameCodeInput: any;
+  // @ViewChild('playerNameInput') playerNameInput: any;
+  // ionViewDidLoad() {
+  //   setTimeout(() => {
+  //     if (this.navParams.get('gameCode')) {
+  //       this.playerNameInput.setFocus();
+  //     } else {
+  //       this.gameCodeInput.setFocus();
+  //     }
+  //     this.keyboard.show();
+  //   }, 200);
+  // }
 }

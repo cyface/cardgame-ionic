@@ -27,7 +27,7 @@ interface Error {
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
+  private readonly BASE_URL: string = 'ws://192.168.86.71:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
   public gameCode: string;
@@ -104,10 +104,12 @@ export class CardgameService {
   }
 
   public validateGameCode(game_code: string) {
-    console.log("SENDING VALIDATE GAME_CODE REQUEST");
-    this.send(JSON.stringify(
-      {'stream': 'validate_game_code', 'payload': {'game_code': game_code}}
-    ));
+    if (game_code.length == 4) {
+      console.log("SENDING VALIDATE GAME_CODE REQUEST");
+      this.send(JSON.stringify(
+        {'stream': 'validate_game_code', 'payload': {'game_code': game_code}}
+      ));
+    }
   }
 
   public validatePlayerName(player_name: string) {
@@ -162,6 +164,8 @@ export class CardgameService {
         this.submittedCards = response.payload.data.submitted_cards;
         this.players = response.payload.data.players;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
+        console.log("SUBMITTED CARDS");
+        console.log(this.submittedCards);
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME BROADCAST RECEIVED');
@@ -190,7 +194,7 @@ export class CardgameService {
         console.log(response.payload.data);
         if (!response.payload.data.valid) {
           console.log('VALIDATE GAME_CODE SIGNALLING INVALID');
-          this.gameCodeValidationResult.next({"game code invalid": true});
+          this.gameCodeValidationResult.next({"gameCodeInvalid": true});
         } else {
           console.log('VALIDATE GAME_CODE SIGNALLING VALID');
           this.gameCode = response.payload.data.game_code;
@@ -204,7 +208,7 @@ export class CardgameService {
         console.log(response.payload.data);
         if (!response.payload.data.valid) {
           console.log('VALIDATE PLAYER NAME SIGNALLING INVALID');
-          this.playerNameValidationResult.next({"player name taken": true});
+          this.playerNameValidationResult.next({"playerNameTaken": true});
         } else {
           console.log('VALIDATE PLAYER NAME SIGNALLING VALID');
           this.playerNameValidationResult.next(null);
