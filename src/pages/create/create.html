@@ -5,7 +5,21 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>You have created a new game!</h2>
-  <h1>Your Game Code: {{cardgameService.gameCode}}</h1>
-  <button ion-button (click)="goToJoin(cardgameService.gameCode)">Join This Game!</button>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col col-10 col-md-6  text-center>
+        <h2><ion-icon name="star" color="gold"></ion-icon>&nbsp;You have created a new game!</h2>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col col-10 col-md-6 text-center>
+        <h1>Your Game Code: <strong style="letter-spacing: 3px;">{{cardgameService.gameCode}}</strong></h1>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col col-10 col-md-6  text-center>
+        <button ion-button block (click)="goToJoin(cardgameService.gameCode)" style="height:13vw; font-size:3vw;"><strong>Join Your Game!</strong></button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

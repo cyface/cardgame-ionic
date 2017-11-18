@@ -1,17 +1,47 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Welcome to the Card Game!</ion-title>
+    <button ion-button [menuToggle]="gameMenu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Cyface's Card Game</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <button ion-button (click)="goToCreate()" full large strong>
-    <ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game
-  </button>
-  <br />
-  <button ion-button (click)="goToJoin()" color="secondary" full large strong>
-    <ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join With an Existing Code
-  </button>
+  <ion-menu [content]="content" id="gameMenu">
+    <ion-content>
+      <ion-list>
+        <button ion-item (click)="goToCreate()">
+          <ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game
+        </button>
+        <button ion-item (click)="goToJoin()">
+          <ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join With an Existing Code
+        </button>
+        <button style="margin-top: 5vw;" ion-item menuClose="gameMenu" detail-none>
+          Close Menu
+        </button>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav [root]="root" #content swipeBackEnabled="false"></ion-nav>
+
+
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col col-12 col-md-8>
+        <button style="height: 20vh; font-size: 3vw;" ion-button (click)="goToCreate()" full>
+          <strong><ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game</strong>
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col col-12 col-md-8>
+        <button style="height: 20vh; font-size: 3vw;" ion-button (click)="goToJoin()" color="secondary" full>
+          <strong><ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join With an Existing Code</strong>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-content>

@@ -1,29 +1,69 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Cardgame: {{ cardgameService.gameCode }}</ion-title>
+    <button ion-button [menuToggle]="gameMenu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>{{ cardgameService.judging ? 'You are judging!' : cardgameService.judge?.name + " is judging!"}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list [hidden]="!cardgameService.player">Welcome, {{ cardgameService.player?.name }}</ion-list>
-  <ion-list [hidden]="cardgameService.judging || cardgameService.submitted">
-    <button ion-item *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
-      {{ card.name }} {{ card.status }}
-    </button>
-  </ion-list>
-  <ion-list [hidden]="!cardgameService.judging || !cardgameService.allPlayersSubmitted">
-    <button ion-item *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
-      {{ card.name }} {{ card.status }}
-    </button>
-  </ion-list>
-  <h3>Match This Card: {{ cardgameService.matchingCard?.name }}</h3>
-  <h3>The Judge Is: {{ cardgameService.judging ? 'You!' : cardgameService.judge?.name}}</h3>
-  <h3 [hidden]="!cardgameService.submittedCard">You Submitted: {{ cardgameService.submittedCard?.name }}</h3>
-  <h3>The Players Are:</h3>
-  <ion-list>
-    <button ion-item *ngFor="let player of cardgameService.players">
-      {{ player.name }}: {{ player.status }} : {{ player.score }} points
-    </button>
-  </ion-list>
-  <h3>All Players Submitted? {{ cardgameService.allPlayersSubmitted }}</h3>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col col-12 col-md-4>
+        <button ion-button block color="orange_card">Match This Card: {{ cardgameService.matchingCard?.name }}</button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center [hidden]="cardgameService.judging || cardgameService.submitted">
+      <ion-col col-12 col-md-8>
+        <button style="height:13vw; margin-top:2vw" ion-button block color="red_card" *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
+          {{ card.name }} {{ card.status }}
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center [hidden]="!cardgameService.judging || !cardgameService.allPlayersSubmitted">
+      <ion-col col-12 col-md-8>
+        <button ion-button color="red_card" *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
+          {{ card.name }} {{ card.status }}
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center [hidden]="!cardgameService.submittedCards">
+      <ion-col col-12 col-md-8>
+        <ion-spinner></ion-spinner>
+        <button ion-button color="red_card">
+          Waiting for Players to Submit Cards!
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center [hidden]="!cardgameService.submittedCard">
+      <ion-col col-12 col-md-8>
+        <button style="height:13vw; margin-top:2vw" ion-button block color="red_card">You Submitted: {{ cardgameService.submittedCard?.name }}</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-menu [content]="content" id="gameMenu">
+    <ion-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Welcome, {{ cardgameService.player?.name }}</ion-label>
+        </ion-item>
+        <ion-list-header>Players</ion-list-header>
+        <ion-item-group>
+          <ion-item *ngFor="let player of cardgameService.players">
+            <ion-icon name="person" item-start color="danger"></ion-icon>
+            <ion-label>{{ player.name }}: {{ player.status }}</ion-label>
+            <ion-note item-end>{{ player.score }} points</ion-note>
+          </ion-item>
+        </ion-item-group>
+        <ion-item>
+          <ion-label>Game Code: <strong>{{ cardgameService.gameCode }}</strong></ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-nav [root]="root" #content swipeBackEnabled="false"></ion-nav>
+
 </ion-content>
