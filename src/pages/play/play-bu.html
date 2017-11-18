@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button [menuToggle]="gameMenu">
+    <button ion-button [menuToggle]="playMenu">
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title text-center>{{ cardgameService.judging ? 'You are judging!' : cardgameService.judge?.name + " is judging!"}}</ion-title>
@@ -9,28 +9,19 @@
 
 <ion-content padding>
   <ion-grid>
-
     <ion-row justify-content-center>
       <ion-col col-12 col-md-6>
-        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging">Ponder This Card: {{ cardgameService.matchingCard?.name }}</button>
+        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging" style="height:13vw; font-size: 2vw;">Ponder This Card: {{ cardgameService.matchingCard?.name }}</button>
         <button ion-button block color="orange_card" [hidden]="cardgameService.judging">Match This Card: {{ cardgameService.matchingCard?.name }}</button>
       </ion-col>
     </ion-row>
-
     <ion-row justify-content-center [hidden]="cardgameService.judging || cardgameService.submitted">
       <ion-col col-12 col-md-8>
-        <button style="height:13vmin; margin-top:2vmin" ion-button block color="red_card" *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
+        <button style="height:13vw; margin-top:2vw" ion-button block color="red_card" *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
           {{ card.name }} {{ card.status }}
         </button>
       </ion-col>
     </ion-row>
-
-    <ion-row justify-content-center [hidden]="!cardgameService.submittedCard">
-      <ion-col col-12 col-md-8>
-        <button style="height:13vmin" ion-button block color="red_card">You Submitted: {{ cardgameService.submittedCard?.name }}</button>
-      </ion-col>
-    </ion-row>
-
     <ion-row justify-content-center [hidden]="!cardgameService.judging || !cardgameService.allPlayersSubmitted">
       <ion-col col-12 col-md-8>
         <button ion-button block color="red_card" *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
@@ -38,28 +29,22 @@
         </button>
       </ion-col>
     </ion-row>
-
-    <ion-row justify-content-center [hidden]="cardgameService.submittedCards || cargameService.submitted">
+    <ion-row justify-content-center [hidden]="!cardgameService.judging && !cardgameService.submittedCards">
       <ion-col col-12 col-md-2 text-center>
         <ion-spinner></ion-spinner>
       </ion-col>
     </ion-row>
-
-    <ion-row justify-content-center [hidden]="!cardgameService.submitted || cardgameService.allPlayersSubmitted">
+    <ion-row justify-content-center [hidden]="!cardgameService.judging && !cardgameService.submittedCards">
       <ion-col col-12 col-md-8>
         <ion-label text-center>
           Waiting for Players to Submit Cards!
         </ion-label>
       </ion-col>
     </ion-row>
-
-    <ion-item-group>
-      <ion-item *ngFor="let player of cardgameService.players">
-        <ion-icon name="person" item-start color="danger"></ion-icon>
-        <ion-label>{{ player.name }}: {{ player.status }}</ion-label>
-        <ion-note item-end>{{ player.score }} points</ion-note>
-      </ion-item>
-    </ion-item-group>
+    <ion-row justify-content-center [hidden]="!cardgameService.submittedCard">
+      <ion-col col-12 col-md-8>
+        <button style="height:13vw; margin-top:2vw" ion-button block color="red_card">You Submitted: {{ cardgameService.submittedCard?.name }}</button>
+      </ion-col>
+    </ion-row>
   </ion-grid>
-
 </ion-content>

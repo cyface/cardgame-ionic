@@ -91,6 +91,7 @@ export class CardgameService {
 
   public submitCard(card_pk: number) {
     console.log("SENDING SUBMIT CARD REQUEST");
+    this.submitted = true;
     this.send(JSON.stringify(
       {'stream': 'submit_card', 'payload': {'game_code': this.gameCode, 'card_pk': card_pk}}
     ));
@@ -148,6 +149,8 @@ export class CardgameService {
           this.allPlayersSubmitted = response.payload.data.all_players_submitted;
           this.submitted = false;
           this.joinResult.next(true);
+          //this.joinResult.complete();
+          //this.joinResult = new Subject<boolean>()
           this.joinErrors = [];
         }
         break;
@@ -155,7 +158,6 @@ export class CardgameService {
         console.log('SUBMIT CARD RESPONSE RECEIVED');
         console.log(response.payload.data);
         this.cardsInHand = response.payload.data.cards;
-        this.submitted = true;
         break;
       case 'card_was_submitted':
         console.log('CARD SUBMITTED BROADCAST RECEIVED');

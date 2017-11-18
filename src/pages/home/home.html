@@ -1,47 +1,28 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button [menuToggle]="gameMenu">
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-title>Cyface's Card Game</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
-  <ion-menu [content]="content" id="gameMenu">
-    <ion-content>
-      <ion-list>
-        <button ion-item (click)="goToCreate()">
-          <ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game
-        </button>
-        <button ion-item (click)="goToJoin()">
-          <ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join With an Existing Code
-        </button>
-        <button style="margin-top: 5vw;" ion-item menuClose="gameMenu" detail-none>
-          Close Menu
-        </button>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-nav [root]="root" #content swipeBackEnabled="false"></ion-nav>
-
-
   <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col col-12 col-md-8>
-        <button style="height: 20vh; font-size: 3vw;" ion-button (click)="goToCreate()" full>
-          <strong><ion-icon name="add"></ion-icon>&nbsp;&nbsp;Create New Game</strong>
-        </button>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-center>
-      <ion-col col-12 col-md-8>
-        <button style="height: 20vh; font-size: 3vw;" ion-button (click)="goToJoin()" color="secondary" full>
-          <strong><ion-icon name="people"></ion-icon>&nbsp;&nbsp;Join With an Existing Code</strong>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
 
+    <ion-row justify-content-center>
+      <ion-col col-12 col-md-8 text-center>
+        <div ion-button (click)="goToCreate()" style="height:40vmin">
+          <ion-icon name="add-circle-outline" style="font-size:25vmin"></ion-icon>
+          Create New Game
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row justify-content-center>
+      <ion-col col-12 col-md-8>
+        <button ion-button (click)="goToJoin()" color="secondary" large block icon-start>
+            <ion-icon name="people"></ion-icon>Join With an Existing Code
+        </button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
 </ion-content>

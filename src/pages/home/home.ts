@@ -10,7 +10,6 @@ import {ToastController} from 'ionic-angular';
 })
 export class HomePage {
   constructor(public navCtrl: NavController, private toastCtrl: ToastController) {
-    //this.presentToast();
   }
 
   goToCreate() {
@@ -20,19 +19,4 @@ export class HomePage {
   goToJoin() {
     this.navCtrl.push(JoinPage);
   }
-
-  presentToast() {
-    let toast = this.toastCtrl.create({
-      message: 'HELLO DOLLY',
-      duration: 3000,
-      position: 'center'
-    });
-
-    toast.onDidDismiss(() => {
-      console.log('Dismissed toast');
-    });
-
-    toast.present();
-  }
-
 }

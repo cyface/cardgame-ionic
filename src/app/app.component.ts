@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 
 import {HomePage} from "../pages/home/home";
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,4 +20,5 @@ export class CardgameApp {
       splashScreen.hide();
     });
   }
+
 }

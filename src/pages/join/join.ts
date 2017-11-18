@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
-import {PlayPage} from "../play/play";
 import {Subscription} from "rxjs/Subscription";
 import {GameCodeValidator} from "../../validators/game_code";
 import {PlayerNameValidator} from "../../validators/player_name";
+import {PlayMenuPage} from "../play_menu/play_menu";
 
 @Component({
   selector: 'page-join',
@@ -23,7 +23,8 @@ export class JoinPage {
     }
     // Listen for a message from the service that the join was successful, and redirect to play page
     this.joinSuccessSubscription = this.cardgameService.getJoinSuccess().subscribe(message => {
-      this.navCtrl.setRoot(PlayPage);
+      console.log("redirecting to play menu page");
+      this.navCtrl.setRoot(PlayMenuPage);
     });
 
     //Define the form used to let players join the game
@@ -38,7 +39,7 @@ export class JoinPage {
     this.cardgameService.joinGame(joinFormData);
   }
 
-  // //Trying to set the focus
+  //Trying to set the focus
   // @ViewChild('gameCodeInput') gameCodeInput: any;
   // @ViewChild('playerNameInput') playerNameInput: any;
   // ionViewDidLoad() {
