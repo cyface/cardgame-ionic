@@ -27,7 +27,7 @@ interface Error {
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'ws://192.168.86.71:8000/game/';
+  private readonly BASE_URL: string = 'ws://cardgame.cyface.com/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
   public gameCode: string;
@@ -149,8 +149,6 @@ export class CardgameService {
           this.allPlayersSubmitted = response.payload.data.all_players_submitted;
           this.submitted = false;
           this.joinResult.next(true);
-          //this.joinResult.complete();
-          //this.joinResult = new Subject<boolean>()
           this.joinErrors = [];
         }
         break;
