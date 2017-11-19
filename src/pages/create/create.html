@@ -6,17 +6,23 @@
 
 <ion-content padding>
   <ion-grid>
-    <ion-row justify-content-center>
+    <ion-row justify-content-center [hidden]="cardgameService.gameCode">
+      <ion-col col-12 col-md-2 text-center>
+        <h2>Generating Your Game Code...</h2>
+        <ion-spinner></ion-spinner>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center [hidden]="!cardgameService.gameCode">
       <ion-col col-10 col-md-6  text-center>
         <h2><ion-icon name="star" color="gold"></ion-icon>&nbsp;You have created a new game!</h2>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
+    <ion-row justify-content-center [hidden]="!cardgameService.gameCode">
       <ion-col col-10 col-md-6 text-center>
-        <h1>Your Game Code: <strong style="letter-spacing: 3px;">{{cardgameService.gameCode}}</strong></h1>
+        <h1>Your Game Code: <strong style="letter-spacing: 3px;">{{cardgameService.gameCode | json}}</strong></h1>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
+    <ion-row justify-content-center [hidden]="!cardgameService.gameCode">
       <ion-col col-10 col-md-6  text-center>
         <button ion-button block (click)="goToJoin(cardgameService.gameCode)" style="height:13vw; font-size:3vw;"><strong>Join Your Game!</strong></button>
       </ion-col>
