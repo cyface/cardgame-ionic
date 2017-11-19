@@ -1,6 +1,6 @@
 {
   "name": "cardgame-ionic",
-  "app_id": "",
+  "app_id": "com.cyface.cardgame",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
