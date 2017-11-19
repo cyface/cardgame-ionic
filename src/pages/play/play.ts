@@ -8,6 +8,5 @@ import {CardgameService} from '../../providers/cardgame-service/cardgame-service
 })
 export class PlayPage {
   constructor(public navCtrl: NavController, private cardgameService: CardgameService) {
-    console.debug(cardgameService.judging);  // Only here to suppress unused errors for cardgameService (mostly used from template)
   }
 }
