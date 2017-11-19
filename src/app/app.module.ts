@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {IonicApp, IonicModule, IonicErrorHandler, NavController} from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {CardgameApp} from './app.component';
 
 import {CreatePage} from '../pages/create/create';

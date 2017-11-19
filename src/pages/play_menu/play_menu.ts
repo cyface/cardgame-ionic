@@ -10,7 +10,7 @@ import {PlayPage} from "../play/play";
 })
 export class PlayMenuPage {
   constructor(public navCtrl: NavController, private cardgameService: CardgameService) {
-    console.log("Play Menu Page");
+    let judging = cardgameService.judging;  // Only here to suppress unused errors for cardgameService (mostly used from template)
   }
 
   goHome() {

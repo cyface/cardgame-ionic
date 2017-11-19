@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
-import {HomePage} from "../home/home";
 
 @Component({
   selector: 'page-play',
@@ -9,12 +8,6 @@ import {HomePage} from "../home/home";
 })
 export class PlayPage {
   constructor(public navCtrl: NavController, private cardgameService: CardgameService) {
-
+    let judging = cardgameService.judging;  // Only here to suppress unused errors for cardgameService (mostly used from template)
   }
-
-  goHome() {
-    this.navCtrl.setRoot(HomePage);
-  }
-
-  playPage = PlayPage;
 }
