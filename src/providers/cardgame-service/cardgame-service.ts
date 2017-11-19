@@ -27,7 +27,7 @@ interface Error {
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'ws://cardgame.cyface.com/game/';
+  private readonly BASE_URL: string = 'ws://service.cardgame.cyface.com/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
   public gameCode: string;

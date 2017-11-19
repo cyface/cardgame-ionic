@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 git pull
-docker-compose build
-docker-compose up -d --force-recreate
+npm install
+PATH=./node_modules/.bin:$PATH
+ionic cordova build browser --prod
+docker-compose up -d --build --force-recreate
