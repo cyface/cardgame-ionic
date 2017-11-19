@@ -38,3 +38,5 @@ UserInterfaceState.xcuserstate
 logs/*
 !logs/README.txt
 *.pid
+
+*.keystore
