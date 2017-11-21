@@ -31,7 +31,7 @@
       </ion-col>
     </ion-row>
 
-    <ion-row justify-content-center [hidden]="!cardgameService.judging || !cardgameService.allPlayersSubmitted">
+    <ion-row justify-content-center [hidden]="!cardgameService.allPlayersSubmitted">
       <ion-col col-12 col-md-8>
         <button ion-button block color="red_card" *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)">
           {{ card.name }} {{ card.status }}

@@ -49,7 +49,6 @@ export class CardgameService {
   public playerNameValidationResult = new Subject<object>();
   public playerJoined = new Subject<object>();
   public cardPicked = new Subject<object>();
-  public newJudge = new Subject<object>();
 
   public connect() {
     console.log("CONNECTING");
@@ -179,14 +178,12 @@ export class CardgameService {
         this.submittedCards = response.payload.data.submitted_cards;
         this.players = response.payload.data.players;
         this.allPlayersSubmitted = response.payload.data.all_players_submitted;
-        console.log("SUBMITTED CARDS");
-        console.log(this.submittedCards);
         break;
       case 'player_joined_game':
         console.log('PLAYER JOINED GAME BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
-        this.playerJoined.next(response.payload.data.player.name)
+        this.playerJoined.next(response.payload.data.player.name);
         break;
       case 'pick_card':
         console.log('CARD PICKED BROADCAST RECEIVED');

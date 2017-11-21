@@ -9,7 +9,6 @@ import {Subscription} from "rxjs/Subscription";
 })
 export class PlayPage {
   playerJoinedSubscription: Subscription;
-  newJudgeSubscription: Subscription;
   cardPickedSubscription: Subscription;
 
   constructor(private cardgameService: CardgameService, public menuCtrl: MenuController, private toastCtrl: ToastController) {
@@ -23,11 +22,6 @@ export class PlayPage {
     this.cardPickedSubscription = this.cardgameService.cardPicked.subscribe(message => {
       this.cardPickedToast(message)
     });
-
-    // // Listen for a message that a card was picked, show toast
-    // this.newJudgeSubscription = this.cardgameService.newJudge.subscribe(message => {
-    //   this.newJudgeToast(message)
-    // });
   }
 
   playerJoinedToast(message) {
