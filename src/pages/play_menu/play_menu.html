@@ -13,7 +13,7 @@
       <ion-item-group>
         <ion-item *ngFor="let player of cardgameService.players">
           <ion-icon name="person" item-start color="danger"></ion-icon>
-          <ion-label>{{ player.name }}: {{ player.status }}</ion-label>
+          <ion-label (click)="bootConfirm(player.pk)">{{ player.name }}: {{ player.status }}</ion-label>
           <ion-note item-end>{{ player.score }} points</ion-note>
         </ion-item>
       </ion-item-group>

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {HomePage} from "../home/home";
 import {PlayPage} from "../play/play";
@@ -11,10 +11,34 @@ import {PlayPage} from "../play/play";
 export class PlayMenuPage {
   rootPage = PlayPage;
 
-  constructor(public navCtrl: NavController, private cardgameService: CardgameService) {
+  constructor(public navCtrl: NavController, private cardgameService: CardgameService, private alertCtrl: AlertController) {
   }
 
   goHome() {
     this.navCtrl.setRoot(HomePage);
+  }
+
+  bootConfirm(playerPk: number) {
+    let alert = this.alertCtrl.create({
+      title: 'Boot From Game?',
+      subTitle: 'There is no Undo!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Boot Player Canceled');
+          }
+        },
+        {
+          text: 'Boot Them!',
+          handler: () => {
+            console.log('Boot Clicked');
+            this.cardgameService.bootPlayer(playerPk)
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

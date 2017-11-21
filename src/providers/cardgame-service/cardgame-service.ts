@@ -27,7 +27,8 @@ interface Error {
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'ws://service.cardgame.cyface.com/game/';
+  // private readonly BASE_URL: string = 'ws://service.cardgame.cyface.com/game/';
+  private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
   public gameCode: string;
@@ -48,6 +49,7 @@ export class CardgameService {
   public playerNameValidationResult = new Subject<object>();
 
   public connect() {
+    console.log("CONNECTING");
     if (this.messages)
       return;
 
@@ -73,10 +75,14 @@ export class CardgameService {
     this.inputStream.next(message)
   }
 
+  public bootPlayer(playerPk) {
+    console.log("SENDING BOOT PLAYER REQUEST");
+    //Send Create Game Message
+    this.send(JSON.stringify({'stream': 'boot_player', 'payload': {'game_code': this.gameCode, 'player_pk': playerPk}}));
+  }
+
   public createGame() {
     console.log("SENDING CREATE GAME REQUEST");
-    // Connect to Card Game Service Socket
-
     //Send Create Game Message
     this.send(JSON.stringify({'stream': 'create_game', 'payload': {}}));
   }
@@ -126,7 +132,19 @@ export class CardgameService {
 
   public eventListener(message: string) {
     let response = JSON.parse(message);
+    console.log(response);
     switch (response.stream) {
+      case 'boot_player':
+        console.log('BOOT PLAYER RESPONSE RECEIVED');
+        console.log(response.payload.data);
+        if (!response.payload.data.valid) {
+          console.log('BOOT PLAYER SIGNALLING FAILURE');
+          this.players = response.payload.data.players;
+        } else {
+          console.log('BOOT PLAYER SIGNALLING SUCCESS');
+          this.players = response.payload.data.players;
+        }
+        break;
       case 'create_game':
         console.log('CREATE GAME RESPONSE RECEIVED');
         this.gameCode = response.payload.data.game_code;

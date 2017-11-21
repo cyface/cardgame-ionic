@@ -19,7 +19,7 @@
 
     <ion-row justify-content-center [hidden]="cardgameService.judging || cardgameService.submitted">
       <ion-col col-12 col-md-8>
-        <button style="height:13vmin; margin-top:2vmin" ion-button block color="red_card" *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
+        <button style="height:9vmin; margin-top:2vmin" ion-button block color="red_card" *ngFor="let card of cardgameService.cardsInHand" (click)="cardgameService.submitCard(card.pk)">
           {{ card.name }} {{ card.status }}
         </button>
       </ion-col>
