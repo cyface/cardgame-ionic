@@ -126,8 +126,6 @@ export class CardgameService {
 
   public eventListener(message: string) {
     let response = JSON.parse(message);
-    console.log('MESSAGE RECEIVED');
-    console.log(response);
     switch (response.stream) {
       case 'create_game':
         console.log('CREATE GAME RESPONSE RECEIVED');
