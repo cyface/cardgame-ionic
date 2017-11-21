@@ -9,12 +9,12 @@ import {PlayPage} from "../play/play";
   templateUrl: 'play_menu.html'
 })
 export class PlayMenuPage {
+  rootPage = PlayPage;
+
   constructor(public navCtrl: NavController, private cardgameService: CardgameService) {
   }
 
   goHome() {
     this.navCtrl.setRoot(HomePage);
   }
-
-  rootPage = PlayPage;
 }

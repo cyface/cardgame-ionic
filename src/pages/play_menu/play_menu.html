@@ -1,14 +1,14 @@
 <ion-menu [content]="content" id="playMenu">
   <ion-header>
     <ion-toolbar color="dark">
-      <ion-title>Card Game</ion-title>
+      <ion-title>Game Code: <strong style="letter-spacing: 3px;">{{ cardgameService.gameCode }}</strong></ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item>
+      <ion-list-header>
         <ion-label>Welcome, {{ cardgameService.player?.name }}!</ion-label>
-      </ion-item>
+      </ion-list-header>
       <ion-list-header>Players</ion-list-header>
       <ion-item-group>
         <ion-item *ngFor="let player of cardgameService.players">
@@ -18,13 +18,9 @@
         </ion-item>
       </ion-item-group>
       <ion-item-divider></ion-item-divider>
-      <ion-item>
-        <ion-label>Game Code: <strong style="letter-spacing: 3px;">{{ cardgameService.gameCode }}</strong></ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label (click)="goHome()">Exit Game</ion-label>
-      </ion-item>
-      <button style="margin-top: 5vw;" ion-item menuClose="playMenu" detail-none>
+      <button ion-item no-lines (click)="goHome()" detail-none style="margin-top: 3vmin;">Exit Game</button>
+      <ion-item-divider></ion-item-divider>
+      <button style="margin-top: 2vmin;" ion-item menuClose="playMenu" detail-none>
         Close This Menu
       </button>
     </ion-list>
