@@ -47,6 +47,9 @@ export class CardgameService {
   public joinResult = new Subject<boolean>();
   public gameCodeValidationResult = new Subject<object>();
   public playerNameValidationResult = new Subject<object>();
+  public playerJoined = new Subject<object>();
+  public cardPicked = new Subject<object>();
+  public newJudge = new Subject<object>();
 
   public connect() {
     console.log("CONNECTING");
@@ -126,10 +129,6 @@ export class CardgameService {
     ));
   }
 
-  public getJoinSuccess(): Observable<boolean> {
-    return this.joinResult.asObservable();
-  }
-
   public eventListener(message: string) {
     let response = JSON.parse(message);
     console.log(response);
@@ -187,19 +186,21 @@ export class CardgameService {
         console.log('PLAYER JOINED GAME BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
+        this.playerJoined.next(response.payload.data.player.name)
         break;
       case 'pick_card':
         console.log('CARD PICKED BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
         this.lastPickedCard = response.payload.data.card;
+        this.cardPicked.next(response.payload.data.card.name);
+        this.judge = response.payload.data.picked_player;
         break;
       case 'new_cards':
         console.log('NEW CARDS MESSAGE RECEIVED');
         console.log(response.payload.data);
         this.cardsInHand = response.payload.data.cards;
         this.matchingCard = response.payload.data.green_card;
-        this.judge = response.payload.data.judge;
         this.judging = this.judge.pk === this.player.pk;
         this.submittedCards = [];
         this.allPlayersSubmitted = false;

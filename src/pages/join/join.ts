@@ -22,7 +22,7 @@ export class JoinPage {
       this.cardgameService.connect();
     }
     // Listen for a message from the service that the join was successful, and redirect to play page
-    this.joinSuccessSubscription = this.cardgameService.getJoinSuccess().subscribe(message => {
+    this.joinSuccessSubscription = this.cardgameService.joinResult.subscribe(message => {
       this.joinSuccessSubscription.unsubscribe(); // Stop listening for changes to join success to prevent double-loading the success page
       this.navCtrl.setRoot(PlayMenuPage);
     });
