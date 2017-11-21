@@ -35,7 +35,7 @@
             <p [hidden]="!joinForm.controls.playerName.errors?.playerNameTaken">I am sorry, but that name is already taken.</p>
           </ion-item>
 
-          <button ion-button type="submit" block large [hidden]="!joinForm.controls.playerName.valid">Join Game</button>
+          <button ion-button type="submit" large block [hidden]="!joinForm.controls.playerName.valid">Join Game</button>
         </form>
       </ion-col>
     </ion-row>
