@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-eval "$(docker-machine env default)"
 git pull
 npm install
 PATH=./node_modules/.bin:$PATH
