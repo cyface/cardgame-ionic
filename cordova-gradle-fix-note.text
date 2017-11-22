@@ -1,0 +1,11 @@
+å
+I commented below lines in build.gradle file
+
+//debugCompile project(path: 'CordovaLib', configuration: 'debug')
+
+//releaseCompile project(path: 'CordovaLib', configuration: 'release')
+
+and added
+
+compile project(':CordovaLib')
+
