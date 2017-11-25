@@ -34,6 +34,14 @@ export class JoinPage {
     })
   }
 
+  ionicOnDestroy() {
+    this.joinSuccessSubscription.unsubscribe();
+  }
+
+  ionViewDidLeave() {
+    this.joinSuccessSubscription.unsubscribe();
+  }
+
   //Function to call the join form
   joinGame(joinFormData) {
     this.cardgameService.joinGame(joinFormData);

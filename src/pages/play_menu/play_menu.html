@@ -1,7 +1,7 @@
 <ion-menu [content]="content" id="playMenu">
   <ion-header>
     <ion-toolbar color="dark">
-      <ion-title>Game Code: <strong style="letter-spacing: 3px;">{{ cardgameService.gameCode }}</strong></ion-title>
+      <ion-title><strong style="letter-spacing: 2px;">{{ cardgameService.gameCode }}</strong></ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
@@ -12,8 +12,8 @@
       <ion-list-header>Players</ion-list-header>
       <ion-item-group>
         <ion-item *ngFor="let player of cardgameService.players">
-          <ion-icon name="person" item-start color="danger"></ion-icon>
-          <ion-label (click)="bootConfirm(player.pk)">{{ player.name }}: {{ player.status }}</ion-label>
+          <ion-icon name="person" item-start [color]="player.status"></ion-icon>
+          <ion-label (click)="bootConfirm(player.pk)">{{ player.name }}</ion-label>
           <ion-note item-end>{{ player.score }} points</ion-note>
         </ion-item>
       </ion-item-group>

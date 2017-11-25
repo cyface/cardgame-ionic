@@ -190,8 +190,8 @@ export class CardgameService {
         console.log(response.payload.data);
         this.players = response.payload.data.players;
         this.lastPickedCard = response.payload.data.card;
-        this.cardPicked.next(response.payload.data.card.name);
         this.judge = response.payload.data.picked_player;
+        this.cardPicked.next(response.payload.data.card.name);
         break;
       case 'new_cards':
         console.log('NEW CARDS MESSAGE RECEIVED');

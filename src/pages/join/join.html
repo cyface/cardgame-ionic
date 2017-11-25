@@ -14,11 +14,11 @@
         <form [formGroup]="joinForm" (ngSubmit)="joinGame(joinForm.value)">
 
           <ion-item>
-            <ion-label>Enter Your Game Code</ion-label>
+            <ion-label>Enter Game Code</ion-label>
             <ion-input formControlName="gameCode" type="text" autocomplete="off" #gameCodeInput></ion-input>
           </ion-item>
 
-          <ion-item *ngIf="!joinForm.controls.gameCode.valid  && joinForm.controls.gameCode.dirty">
+          <ion-item *ngIf="!joinForm.controls.gameCode.valid  && joinForm.controls.gameCode.dirty" text-wrap>
             <p [hidden]="!joinForm.controls.gameCode.errors?.minlength">The game code must be at least 4 characters.</p>
             <p [hidden]="!joinForm.controls.gameCode.errors?.maxlength">The game code must be no more than 4 characters.</p>
             <p [hidden]="!joinForm.controls.gameCode.errors?.gameCodeInvalid">I am sorry, but that game code doesn't exist.</p>
@@ -29,7 +29,7 @@
             <ion-input formControlName="playerName" type="text" autocomplete="off" #playerNameInput></ion-input>
           </ion-item>
 
-          <ion-item *ngIf="!joinForm.controls.playerName.valid  && joinForm.controls.playerName.dirty">
+          <ion-item *ngIf="!joinForm.controls.playerName.valid  && joinForm.controls.playerName.dirty" text-wrap>
             <p [hidden]="!joinForm.controls.playerName.errors?.minlength">Please enter a valid name (must be at least two letters).</p>
             <p [hidden]="!joinForm.controls.playerName.errors?.maxlength">Please enter a valid name (must be less than 11 letters).</p>
             <p [hidden]="!joinForm.controls.playerName.errors?.playerNameTaken">I am sorry, but that name is already taken.</p>

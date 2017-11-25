@@ -24,6 +24,16 @@ export class PlayPage {
     });
   }
 
+  ionicOnDestroy() {
+    this.playerJoinedSubscription.unsubscribe();
+    this.cardPickedSubscription.unsubscribe();
+  }
+
+  ionViewDidLeave() {
+    this.playerJoinedSubscription.unsubscribe();
+    this.cardPickedSubscription.unsubscribe();
+  }
+
   playerJoinedToast(message) {
     let toast = this.toastCtrl.create({
       message: message + ' has joined the game',
@@ -36,7 +46,7 @@ export class PlayPage {
 
   cardPickedToast(message) {
     let toast = this.toastCtrl.create({
-      message: message + '  wins! Congrats  ' + this.cardgameService.judge.name + '!',
+      message: message + '  wins!',
       duration: 3000,
       position: 'top'
     });
