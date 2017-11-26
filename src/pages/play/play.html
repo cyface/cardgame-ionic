@@ -13,7 +13,7 @@
     <!-- Matching Card -->
     <ion-row justify-content-center>
       <ion-col col-12 col-md-6>
-        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging">Ponder This Card: <strong>{{ cardgameService.matchingCard?.name }}</strong></button>
+        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging" text-wrap>Ponder This Card: &nbsp;<strong>{{ cardgameService.matchingCard?.name }}</strong></button>
         <button ion-button block color="orange_card" [hidden]="cardgameService.judging">Match This Card: {{ cardgameService.matchingCard?.name }}</button>
       </ion-col>
     </ion-row>
@@ -30,21 +30,21 @@
     <!-- Player Submitted Card -->
     <ion-row justify-content-center [hidden]="!cardgameService.submittedCard">
       <ion-col col-12 col-md-8>
-        <button style="height:13vmin" ion-button block color="red_card">You Submitted: {{ cardgameService.submittedCard?.name }}</button>
+        <button style="height:13vmin" ion-button block color="red_card" text-wrap>You Submitted: {{ cardgameService.submittedCard?.name }}</button>
       </ion-col>
     </ion-row>
 
     <!-- All Submitted Cards -->
     <ion-row justify-content-center [hidden]="!cardgameService.allPlayersSubmitted">
       <ion-col col-12 col-md-8>
-        <button ion-button block color="red_card" *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)" [disabled]="!cardgameService.judging">
+        <button ion-button block color="red_card" *ngFor="let card of cardgameService.submittedCards" (click)="cardgameService.pickCard(card.pk)" [disabled]="!cardgameService.judging" text-wrap>
           {{ card.name }}
         </button>
       </ion-col>
     </ion-row>
 
     <!-- Spinner Waiting for Submitted Cards -->
-    <ion-row justify-content-center [hidden]="cardgameService.submittedCards || cargameService.submitted">
+    <ion-row justify-content-center [hidden]="cardgameService.submittedCards || cardgameService.submitted">
       <ion-col col-12 col-md-2 text-center>
         <ion-spinner></ion-spinner>
       </ion-col>
