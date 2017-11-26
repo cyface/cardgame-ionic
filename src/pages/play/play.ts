@@ -53,15 +53,4 @@ export class PlayPage {
 
     toast.present();
   }
-
-  newJudgeToast(message) {
-    let toast = this.toastCtrl.create({
-      message: 'Congratulations New Judge  ' + this.cardgameService.judge.name,
-      duration: 3000,
-      position: 'bottom'
-    });
-
-    toast.present();
-  }
-
 }
