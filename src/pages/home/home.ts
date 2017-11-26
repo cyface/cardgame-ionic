@@ -10,7 +10,7 @@ import {CardgameService} from "../../providers/cardgame-service/cardgame-service
 })
 export class HomePage {
   constructor(public navCtrl: NavController, private cardgameService: CardgameService, ) {
-    this.cardgameService.gameCode = '';
+    this.cardgameService.reinitialize();
   }
 
   goToCreate() {

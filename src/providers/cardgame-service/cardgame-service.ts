@@ -37,7 +37,6 @@ export class CardgameService {
   public submittedCard: Card;
   public submittedCards: Card[];
   public matchingCard: Card;
-  public lastPickedCard: Card;
   public player: Person;
   public players: Person[];
   public judge: Person;
@@ -95,6 +94,26 @@ export class CardgameService {
     this.send(JSON.stringify(
       {'stream': 'join_game', 'payload': {'game_code': joinFormData.gameCode, 'player_name': joinFormData.playerName}}
     ));
+  }
+
+  public reinitialize() {
+    this.gameCode = '';
+    this.cardsInHand = [];
+    this.submitted = false;
+    this.submittedCard = null;
+    this.submittedCards = [];
+    this.matchingCard = null;
+    this.player = null;
+    this.players = [];
+    this.judge = null;
+    this.judging = false;
+    this.allPlayersSubmitted = false;
+    this.joinErrors = [];
+    this.joinResult = new Subject<boolean>();
+    this.gameCodeValidationResult = new Subject<object>();
+    this.playerNameValidationResult = new Subject<object>();
+    this.playerJoined = new Subject<object>();
+    this.cardPicked = new Subject<object>();
   }
 
   public submitCard(card_pk: number) {
@@ -189,7 +208,6 @@ export class CardgameService {
         console.log('CARD PICKED BROADCAST RECEIVED');
         console.log(response.payload.data);
         this.players = response.payload.data.players;
-        this.lastPickedCard = response.payload.data.card;
         this.judge = response.payload.data.picked_player;
         this.cardPicked.next(response.payload.data.card.name);
         break;
