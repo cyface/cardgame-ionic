@@ -13,7 +13,7 @@
     <!-- Matching Card -->
     <ion-row justify-content-center>
       <ion-col col-12 col-md-6>
-        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging" text-wrap>Ponder This Card: &nbsp;<strong>{{ cardgameService.matchingCard?.name }}</strong></button>
+        <button ion-button block color="orange_card" [hidden]="!cardgameService.judging" text-wrap>Ponder<br/>This Card: &nbsp;<strong>{{ cardgameService.matchingCard?.name }}</strong></button>
         <button ion-button block color="orange_card" [hidden]="cardgameService.judging">Match This Card: {{ cardgameService.matchingCard?.name }}</button>
       </ion-col>
     </ion-row>
