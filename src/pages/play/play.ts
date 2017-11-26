@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MenuController, NavController, ToastController} from 'ionic-angular';
+import {MenuController, ToastController} from 'ionic-angular';
 import {CardgameService} from '../../providers/cardgame-service/cardgame-service';
 import {Subscription} from "rxjs/Subscription";
 
@@ -24,7 +24,7 @@ export class PlayPage {
     });
   }
 
-  ionicOnDestroy() {
+  ngOnDestroy() {
     this.playerJoinedSubscription.unsubscribe();
     this.cardPickedSubscription.unsubscribe();
   }

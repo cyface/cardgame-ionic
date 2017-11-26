@@ -12,7 +12,6 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {CardgameService} from '../providers/cardgame-service/cardgame-service';
 import {PlayMenuPage} from "../pages/play_menu/play_menu";
-import {Keyboard} from "@ionic-native/keyboard";
 
 @NgModule({
   declarations: [
@@ -40,8 +39,7 @@ import {Keyboard} from "@ionic-native/keyboard";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    CardgameService,
-    Keyboard
+    CardgameService
   ]
 })
 export class AppModule {

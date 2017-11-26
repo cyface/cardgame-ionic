@@ -6,7 +6,6 @@ import {Subscription} from "rxjs/Subscription";
 import {GameCodeValidator} from "../../validators/game_code";
 import {PlayerNameValidator} from "../../validators/player_name";
 import {PlayMenuPage} from "../play_menu/play_menu";
-import {Keyboard} from "@ionic-native/keyboard";
 
 @Component({
   selector: 'page-join',
@@ -17,14 +16,13 @@ export class JoinPage {
   joinSuccessSubscription: Subscription;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder, private keyboard: Keyboard) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private cardgameService: CardgameService, private builder: FormBuilder) {
     // Connect if not already connected (you may have already connected because you did createGame first)
     if (!this.cardgameService.gameCode) {
       this.cardgameService.connect();
     }
     // Listen for a message from the service that the join was successful, and redirect to play page
     this.joinSuccessSubscription = this.cardgameService.joinResult.subscribe(message => {
-      this.joinSuccessSubscription.unsubscribe(); // Stop listening for changes to join success to prevent double-loading the success page
       this.navCtrl.setRoot(PlayMenuPage);
     });
 
@@ -35,7 +33,7 @@ export class JoinPage {
     })
   }
 
-  ionicOnDestroy() {
+  ngOnDestroy() {
     this.joinSuccessSubscription.unsubscribe();
   }
 
@@ -46,19 +44,5 @@ export class JoinPage {
   //Function to call the join form
   joinGame(joinFormData) {
     this.cardgameService.joinGame(joinFormData);
-  }
-
-  //Trying to set the focus
-  @ViewChild('gameCodeInput') gameCodeInput: any;
-  @ViewChild('playerNameInput') playerNameInput: any;
-  ionViewDidLoad() {
-    setTimeout(() => {
-      if (this.navParams.get('gameCode')) {
-        this.playerNameInput.setFocus();
-      } else {
-        this.gameCodeInput.setFocus();
-      }
-     this.keyboard.show();
-    }, 750);
   }
 }
