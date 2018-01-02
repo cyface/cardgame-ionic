@@ -42,5 +42,5 @@ import {PlayMenuPage} from "../pages/play_menu/play_menu";
     CardgameService
   ]
 })
-export class AppModule {
+export class CardgameAppModule {
 }
