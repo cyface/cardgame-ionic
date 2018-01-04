@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class Page {
 
@@ -6,7 +6,7 @@ export class Page {
     return browser.get(destination);
   }
 
-  getTitle() {
+  getBrowserTitle() {
     return browser.getTitle();
   }
 

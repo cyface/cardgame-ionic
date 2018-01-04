@@ -9,15 +9,15 @@
 
     <ion-row justify-content-center>
       <ion-col col-12 col-md-8 text-center>
-        <div ion-button (click)="goToCreate()" large block icon-start>
+        <button ion-button (click)="goToCreate()" large block icon-start id="create-game-button">
           <ion-icon name="color-wand"></ion-icon>Create New Game
-        </div>
+        </button>
       </ion-col>
     </ion-row>
 
     <ion-row justify-content-center>
       <ion-col col-12 col-md-8>
-        <button ion-button (click)="goToJoin()" color="secondary" large block icon-start>
+        <button ion-button (click)="goToJoin()" color="secondary" large block icon-start id="join-game-button">
             <ion-icon name="people"></ion-icon>Join With a Code
         </button>
       </ion-col>
