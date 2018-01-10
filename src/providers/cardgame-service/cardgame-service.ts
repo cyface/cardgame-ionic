@@ -1,9 +1,10 @@
-// file: server-socket.service.ts
+// Cardgame Service
+
 import {Injectable} from '@angular/core';
 import {QueueingSubject} from 'queueing-subject';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from "rxjs/Subject";
-import websocketConnect from 'rxjs-websockets';
+import {default as websocketConnect} from 'rxjs-websockets'; // The 'connect' function, exported as the default from rxjs-websockets
 import 'rxjs/add/operator/share';
 
 interface Card {
