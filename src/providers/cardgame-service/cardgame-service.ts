@@ -6,6 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {Subject} from "rxjs/Subject";
 import {default as websocketConnect} from 'rxjs-websockets'; // The 'connect' function, exported as the default from rxjs-websockets
 import 'rxjs/add/operator/share';
+import {environment} from '../../environments/environment';
 
 interface Card {
   pk: number;
@@ -28,7 +29,8 @@ interface Error {
 
 @Injectable()
 export class CardgameService {
-  private readonly BASE_URL: string = 'wss://service.cardgame.cyface.com/game/';
+  private readonly BASE_URL: string = environment.apiUrl;
+  // private readonly BASE_URL: string = 'wss://service.cardgame.cyface.com/game/';
   // private readonly BASE_URL: string = 'ws://127.0.0.1:8000/game/';
   private inputStream: QueueingSubject<string>;
   public messages: Observable<string>;
