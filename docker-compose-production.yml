@@ -1,12 +1,13 @@
 version: "3"
 services:
-  webserver:
-    image: nginx:alpine
+  web:
+    image: cyface/cardgame-ionic
     ports:
-      - 8669:80
-    volumes:
-      - ./devscripts/docker-compose/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./devscripts/docker-compose/nginx-security-headers.conf:/etc/nginx/nginx-security-headers.conf:ro
-      - ./devscripts/docker-compose/cache-control-headers.conf:/etc/nginx/cache-control-headers.conf:ro
-      - ./logs:/var/log/nginx:rw
-      - ./platforms/browser/www /usr/share/nginx/html
+      - 5678:80
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
