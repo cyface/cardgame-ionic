@@ -9,4 +9,4 @@ services:
       - ./devscripts/docker-compose/nginx-security-headers.conf:/etc/nginx/nginx-security-headers.conf:ro
       - ./devscripts/docker-compose/cache-control-headers.conf:/etc/nginx/cache-control-headers.conf:ro
       # - ./logs:/var/log/nginx:rw
-      - ./www:/usr/share/nginx/html
+      - ./www:/usr/share/nginx/html   # You must run ionic serve first to generate the www directory
