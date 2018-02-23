@@ -1,8 +1,1 @@
 node_modules
-test-config
-resources
-src
-logs
-e2e
-*.json
-*.xml
