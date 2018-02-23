@@ -1,19 +1,20 @@
-FROM node as build
-WORKDIR /home/node/app
-COPY ./config.xml /home/node/app
-COPY ./ionic.config.json /home/node/app
-COPY ./package.json /home/node/app
+FROM node as builder
+WORKDIR /home/node/app/
+COPY ./config.xml /home/node/app/
+COPY ./devscripts/ /home/node/app/devscripts/
+COPY ./ionic.config.json /home/node/app/
+COPY ./package.json /home/node/app/
 COPY ./resources/ /home/node/app/resources/
 COPY ./src/ /home/node/app/src/
-COPY ./tsconfig.json /home/node/app
+COPY ./tsconfig.json /home/node/app/
 RUN ls
 RUN yarn install
 RUN npx ionic cordova build browser
 
 FROM nginx:alpine
-COPY ./platforms/browser/www* /usr/share/nginx/html
-COPY ./devscripts/docker-compose/nginx.conf /etc/nginx/
-COPY ./devscripts/docker-compose/nginx-security-headers.conf /etc/nginx/
-COPY ./devscripts/docker-compose/cache-control-headers.conf /etc/nginx/
+COPY --from=builder /home/node/app/platforms/browser/www* /usr/share/nginx/html/
+COPY --from=builder /home/node/app/devscripts/docker-compose/nginx.conf /etc/nginx/
+COPY --from=builder /home/node/app/devscripts/docker-compose/nginx-security-headers.conf /etc/nginx/
+COPY --from=builder /home/node/app/devscripts/docker-compose/cache-control-headers.conf /etc/nginx/
 
 # NOTE THIS FILE IS ONLY USED FOR BUILD/DEPLOY NOT LOCAL DEV
