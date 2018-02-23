@@ -4,7 +4,7 @@ COPY ./config.xml /home/node/app
 COPY ./ionic.config.json /home/node/app
 COPY ./package.json /home/node/app
 COPY ./resources/ /home/node/app/resources/
-COPY ./src /home/node/app/src/
+COPY ./src/ /home/node/app/src/
 COPY ./tsconfig.json /home/node/app
 RUN ls
 RUN yarn install
